@@ -8,7 +8,6 @@ import 'package:petmatch/domain/value_objects/geohash.dart';
 
 void main() {
   final location = GeoPoint(latitude: -23.5505, longitude: -46.6333);
-  final birthDate = DateTime(2024, 3, 10);
 
   Pet buildPet({
     String name = 'Rex',
