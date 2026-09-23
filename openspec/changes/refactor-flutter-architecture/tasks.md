@@ -1,7 +1,7 @@
 ## 1. Foundation: Value Objects & Result Pattern
 
 - [x] 1.1 Create `lib/domain/value_objects/result.dart` with `Result<T, E>` sealed class, `Success`, `Failure`, and `when` pattern matching. **Verify:** `flutter test test/unit/value_objects/result_test.dart` passes.
-- [ ] 1.2 Create `lib/domain/value_objects/failures/common_failure.dart` with base `Failure` class and `UnknownFailure`. **Verify:** `flutter test test/unit/value_objects/failures_test.dart` passes.
+- [x] 1.2 Create `lib/domain/value_objects/failures/common_failure.dart` with base `Failure` class and `UnknownFailure`. **Verify:** `flutter test test/unit/value_objects/failures_test.dart` passes.
 - [ ] 1.3 Create `lib/domain/value_objects/failures/auth_failure.dart` with `ValidationFailure`, `NetworkFailure`, `ServerFailure`, `RateLimitedFailure`, `UnauthorizedFailure`, `PermissionFailure`. **Verify:** Unit tests cover each failure type with message/code.
 - [ ] 1.4 Create `lib/domain/value_objects/failures/pet_failure.dart` with `ValidationFailure`, `NetworkFailure`, `ServerFailure`, `PermissionFailure`, `NotFoundFailure`. **Verify:** Unit tests cover each failure type.
 - [ ] 1.5 Create `lib/domain/value_objects/geo_point.dart` with `latitude`, `longitude`, validation (-90..90, -180..180), `toWkt()` → `POINT(lng lat)`, `fromPostgis(Map)` parsing GeoJSON. **Verify:** `flutter test test/unit/value_objects/geo_point_test.dart` passes (WKT round-trip, GeoJSON parsing, validation).
