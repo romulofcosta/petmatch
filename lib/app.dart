@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
+import "core/theme/app_theme.dart";
 import "routes/app_router.dart";
 
 class PetMatchApp extends ConsumerWidget {
@@ -12,13 +13,7 @@ class PetMatchApp extends ConsumerWidget {
     return MaterialApp.router(
       title: "PetMatch",
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6C63FF),
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.light,
       routerConfig: router,
     );
   }

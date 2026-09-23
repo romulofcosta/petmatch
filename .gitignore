@@ -84,3 +84,9 @@ coverage/
 
 # Supabase
 supabase/.temp/
+# Widget Preview related
+.widget_preview/
+
+# Agent tooling (local)
+.claude/
+.opencode/

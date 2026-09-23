@@ -265,6 +265,33 @@ CREATE INDEX idx_subscriptions_expires ON subscriptions(expires_at) WHERE status
 -- FUNCTIONS
 -- ============================================
 
+-- Criar perfil de usuário (com PostGIS geography)
+CREATE OR REPLACE FUNCTION create_user_profile(
+  p_uid UUID,
+  p_display_name TEXT,
+  p_birth_date DATE,
+  p_lng FLOAT DEFAULT -46.6333,
+  p_lat FLOAT DEFAULT -23.5505
+)
+RETURNS VOID AS $$
+BEGIN
+  INSERT INTO users (
+    uid, display_name, birth_date, city, state, country,
+    location, geohash, preferences, subscription, stats,
+    is_active, is_verified, is_banned
+  ) VALUES (
+    p_uid, p_display_name, p_birth_date, '', '', 'BR',
+    ST_SetSRID(ST_MakePoint(p_lng, p_lat), 4326)::geography,
+    '6gcb1y',
+    '{"notifications":{"push":true,"email":false},"distance_radius":30,"interest_filter":[]}',
+    '{"plan":"free","status":"active"}',
+    '{"total_matches":0,"total_messages":0,"profile_views":0}',
+    true, false, false
+  )
+  ON CONFLICT (uid) DO NOTHING;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Incrementar match count
 CREATE OR REPLACE FUNCTION increment_match_count(p_user_id UUID)
 RETURNS VOID AS $$
@@ -317,7 +344,7 @@ BEGIN
             ST_SetSRID(ST_MakePoint(p_lng, p_lat), 4326)::geography
         ) / 1000)::NUMERIC, 2)::FLOAT AS distance_km,
         p.interests
-    FROM pets p
+    FROM pets_with_age p
     WHERE p.is_active = true
         AND p.is_banned = false
         AND ST_DWithin(

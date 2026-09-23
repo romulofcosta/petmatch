@@ -6,6 +6,18 @@ As Edge Functions rodam no servidor da Supabase (Deno Runtime) e implementam tod
 
 ---
 
+## Convencao: Edge Function vs SQL RPC
+
+**Edge Functions sao a fonte de verdade para logica de servidor que cruza validacao + efeitos colaterais** (ex.: criacao de perfil com validacao de idade/geo, calculo de geohash real e registro de LGPD `consent_logs`; swipe/gestao de match; envio de mensagens; push). Elas coordenam a escrita em multiplas tabelas e aciono efeitos laterais de forma autoritativa do servidor.
+
+**SQL RPC fica reservado para operacoes puramente transacionais** (ex.: contadores e flags, como `increment_match_count`). RPC NAO deve ser usado para criacao/atualizacao de perfis nem para orquestrar efeitos colaterais.
+
+Regra pratica: para cada escrita, defina explicitamente qual caminho (Edge Function vs RPC) e o dono. Manter RLS como camada de defesa em profundidade em ambos os casos.
+
+Exemplo: criacao de perfil de tutor passa exclusivamente pela Edge Function `create-profile` (ver `docs/architecture/05-fluxos-api.md`), nunca por insert direto no cliente nem por RPC `create_user_profile` (removido na migracao `003`).
+
+---
+
 ## 1. Estrutura de Pastas
 
 ```
