@@ -1,12 +1,20 @@
-# <type>(<scope>): <subject>
-# Tipos: feat, fix, docs, style, refactor, test, chore, perf, ci, revert
-# Scope: use o número da issue (ex: #1) ou área (auth, pets, di, responsive)
-# Subject: modo imperativo, sem ponto final, max 50 chars
+# ═══════════ Cabeçalho (obrigatório) ═══════════════════════════════
+# <tipo>(<escopo>): <assunto em modo imperativo, sem ponto final, ≤50 chars>
 #
-# Exemplos:
+# Tipos: feat | fix | docs | style | refactor | test | chore | perf | ci | revert
+# Escopo: número da issue (#68) OU área (auth, pets, di, responsive)
+#
+# EXEMPLOS:
 #   feat(#68): envolver LoginPage com ResponsivePage
 #   refactor(#1): criar sealed Result<T,E> com when()
 #   fix(#26): corrigir overflow do GridView em telas largas
 #
-# Corpo (opcional): explique o PORQUÊ, não o que. Referencie a issue:
-#   Closes #68
+# ═══════════ Corpo (opcional, recomendado) ═════════════════════════
+#
+# Por quê:  <motivação / problema resolvido — o QUE e PARA QUÊ>
+# Como:     <decisões de implementação relevantes — paths, trade-offs>
+# Testes:   <o que foi validado; quais testes rodam>
+#
+# ═══════════ Rodapé (obrigatório p/ fechar issue) ══════════════════
+#
+# Closes #68
