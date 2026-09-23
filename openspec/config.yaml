@@ -1,0 +1,63 @@
+schema: spec-driven
+
+context: |
+  PetMatch is a Flutter mobile app ("Tinder for pets") connecting dog and cat
+  owners for pet socialization and breeding. MVP target: 1,000 signups/month,
+  500 matches/week, 5% free->premium conversion.
+
+  Stack: Flutter (Riverpod/Codegen, GoRouter, layered architecture) on the
+  frontend; Supabase (PostgreSQL + PostGIS, Auth, Storage, Realtime, Edge
+  Functions, RLS) as backend; Firebase Cloud Messaging for push. Payments via
+  Stripe (webhooks on Edge Functions).
+
+  Domain: pet profiles, swipe/like/match, chat, push notifications, freemium
+  subscriptions. Geographic proximity (PostGIS GEOMETRY/GEOGRAPHY points +
+  geohash) is core to discovery.
+
+  Conventions:
+  - Flutter uses a layered structure per feature: data/models/repositories,
+    domain/entities/usecases, presentation/pages/providers/widgets.
+  - Supabase access is gated through RLS; server logic lives in Edge Functions
+    (Deno/TypeScript) under supabase/functions/<name>/index.ts with shared
+    helpers in _shared/ (authMiddleware, cors, validators, geolocation,
+    notifications, supabaseClient).
+  - All DB changes are SQL migrations under supabase/migrations/.
+
+  Regulatory constraints (important, non-negotiable): LGPD (Brazilian data
+  protection; consent logging, rights of access/deletion/portability, DPO),
+  age minimums (tutor 18+, pet >=120 days per Lei 17.972/24), animal welfare
+  and CNPF breed whitelist. See docs/legal/ for full details.
+
+# Per-artifact rules
+rules:
+  proposal:
+    - Scope each proposal to a single testable behavior area (auth, pets,
+      matching, chat, notifications, subscription, moderation, compliance).
+    - Always include a "Non-goals" section.
+    - Keep under 500 words; explicit MVP vs future scope.
+  specs:
+    - Write Acceptance Criteria and Requirements as plain, testable
+      statements with concrete Scenarios (WHEN/THEN).
+    - Derive from docs/ and the existing supabase schema; don't invent fields
+      that contradict the migration 001 schema.
+    - Note free vs premium limits explicitly where they differ (likes/day,
+      super likes, search radius, pets per owner, message types).
+  design:
+    - "Convention: Edge Functions own facade/server logic that spans validation plus side effects (profile creation, swipe, messages, push). SQL RPC is reserved for purely transactional DB operations (counters, flags). State which path owns each write."
+    - "Prefer server-authoritative writes over client-side-auth inserts; keep RLS as the defense-in-depth gate."
+    - "Pets and users store location natively as PostGIS GEOGRAPHY point plus real geohash (never numeric lat/lng, never hardcoded geohash)."
+    - "Flag denormalized state (users.subscription, users.stats JSONB) implications explicitly."
+  tasks:
+    - Break into chunks no larger than ~2 hours.
+    - Include verification steps (SQL queries, edge function smoke tests,
+      Flutter widget tests) per task.
+
+# Per-operation guidance
+operations:
+  apply:
+    guidance:
+      - Keep test summaries concise.
+      - List which access path (SQL vs Edge Function) each change touchs.
+  archive:
+    guidance:
+      - Summarize the archive outcome before finishing.
