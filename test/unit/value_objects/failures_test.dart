@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:petmatch/domain/value_objects/failures/auth_failure.dart';
 import 'package:petmatch/domain/value_objects/failures/common_failure.dart';
+import 'package:petmatch/domain/value_objects/failures/pet_failure.dart';
 import 'package:petmatch/domain/value_objects/failures/unknown_failure.dart';
 
 void main() {
@@ -60,6 +61,37 @@ void main() {
 
       expect(failure.originalError, same(cause));
       expect(failure.message, 'E-mail ou senha incorretos.');
+    });
+  });
+
+  group('PetFailure hierarquia', () {
+    final cases = <PetFailure, String>{
+      const PetValidationFailure(): 'pet_validation',
+      const PetNetworkFailure(): 'pet_network',
+      const PetServerFailure(): 'pet_server',
+      const PetPermissionFailure(): 'pet_permission',
+      const PetNotFoundFailure(): 'pet_not_found',
+    };
+
+    cases.forEach((failure, code) {
+      test(
+          '${failure.runtimeType} é instanciável, estende CommonFailure e tem code="$code"',
+          () {
+        expect(failure, isA<PetFailure>());
+        expect(failure, isA<CommonFailure>());
+        expect(failure.code, code);
+        expect(failure.message, isNotEmpty);
+      });
+    });
+
+    test('não confunde AuthFailure com PetFailure (prefixos distintos)', () {
+      const auth = AuthValidationFailure();
+      const pet = PetValidationFailure();
+
+      expect(auth, isA<AuthFailure>());
+      expect(auth, isNot(isA<PetFailure>()));
+      expect(pet, isA<PetFailure>());
+      expect(pet, isNot(isA<AuthFailure>()));
     });
   });
 
