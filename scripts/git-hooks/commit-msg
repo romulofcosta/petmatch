@@ -1,0 +1,28 @@
+#!/bin/sh
+# Commit-msg: valida mensagem no padrão Conventional Commits
+# Regras: <tipo>(<escopo>): <assunto> — comentários (#) são ignorados.
+# Tipos: feat, fix, docs, style, refactor, test, chore, perf, ci, revert
+
+COMMIT_MSG_FILE="$1"
+COMMIT_MSG=$(head -n 1 "$COMMIT_MSG_FILE" | sed 's/^#//' | sed 's/^ *//' | sed 's/ *$//')
+
+# Ignora merges/pushes automáticos e commits de merge do git
+case "$COMMIT_MSG" in
+  *"Merge branch"*|*"Merge pull request"*|*"Initial commit"*) exit 0 ;;
+esac
+
+PATTERN="^(feat|fix|docs|style|refactor|test|chore|perf|ci|revert)(\([a-z0-9._#-]+\))?!?: .+$"
+
+if ! echo "$COMMIT_MSG" | grep -qE "$PATTERN"; then
+  echo ""
+  echo "❌ Mensagem de commit fora do padrão Conventional Commits:"
+  echo "   '$COMMIT_MSG'"
+  echo ""
+  echo "   Esperado: <tipo>(<escopo>): <assunto>"
+  echo "   Exemplo : feat(#68): envolver LoginPage com ResponsivePage"
+  echo "   Tipos   : feat | fix | docs | style | refactor | test | chore | perf | ci | revert"
+  echo ""
+  exit 1
+fi
+
+exit 0

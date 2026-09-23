@@ -1,0 +1,15 @@
+#!/bin/sh
+# Pre-push: roda flutter analyze + flutter test antes de publicar
+# (mesmos checks do CI — red flag local antes do pull request)
+
+echo "🔍 flutter analyze..."
+flutter analyze --no-fatal-infos --no-fatal-warnings || exit 1
+
+if [ -d "test" ]; then
+  echo "🧪 flutter test..."
+  flutter test || exit 1
+else
+  echo "ℹ️  Sem diretório test/ — pulando flutter test."
+fi
+
+exit 0

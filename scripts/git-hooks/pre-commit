@@ -1,0 +1,19 @@
+#!/bin/sh
+# Pre-commit: formata arquivos Dart staged antes do commit
+# Usa `dart format --set-exit-if-changed` nos arquivos que serão commitados.
+# Roda apenas se houver .dart staged (evita custo quando não aplicável).
+
+STAGED_DART=$(git diff --cached --name-only --diff-filter=ACM | grep '\.dart$' || true)
+
+if [ -z "$STAGED_DART" ]; then
+  exit 0
+fi
+
+echo "🎨 dart format (arquivos staged)..."
+dart format --set-exit-if-changed $STAGED_DART || {
+  echo ""
+  echo "❌ Arquivos precisam de formatação. Rode 'dart format <arquivo>' e re-adicione-os."
+  exit 1
+}
+
+exit 0
