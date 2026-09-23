@@ -9,6 +9,10 @@ Alinhado ao backlog (épicos → tasks → sub-issues) e às boas práticas do G
 - **Merge:** squash obrigatório (1 commit por PR, história linear)
 - **Proteção de `main`:** PR obrigatório, 1 approval, checks CI obrigatórios (`flutter analyze` + `flutter test`), sem push direto
 
+> ⚠️ **Repo pessoal:** o GitHub **não permite self-review** (não dá para aprovar o próprio
+> PR). Em dev solo, use o merge admin com bypass registrado:
+> `gh pr merge <N> --squash --delete-branch --admin`
+
 ```
 épico #33 → task #24 → sub-issue #68 → branch feat/68-login-responsiva → PR (Closes #68) → squash em main
 ```
@@ -64,6 +68,9 @@ git pr                      # alias de push -u origin HEAD
 # 5. No PR: template já vem preenchido — linkar a issue:
 #    Closes #68   → fecha a sub-issue ao mergear
 #    (você pode fechá-la manualmente no board quando o PR mergear)
+
+# 6. Merge (repo pessoal: sem self-review → use --admin)
+gh pr merge 68 --squash --delete-branch --admin
 ```
 
 > **Board:** mova a sub-issue para In Progress ao abrir o branch, e para Done
