@@ -148,6 +148,65 @@ gh pr merge --squash --delete-branch --admin
 | Apply | (sub-issue) | In Progress → Done | branch → PR → squash |
 | Archive | `sync-specs` + `archive` | épico Done | commit archive |
 
+---
+
+## Labels vs OpenSpec (quem é dono de quê)
+
+**O contêiner do trabalho é sempre o change do OpenSpec.** Label é **filtro de
+leitura** — nunca contêiner. Uma mesma issue pode ter vários labels sem conflito.
+
+| Camada/dimensão | Papel | Exemplo |
+|---|---|---|
+| Change (OpenSpec) | Contêiner — *porquê + o quê* | `refactor-flutter-architecture` |
+| Issues/backlog | Unidades de execução | tasks + epics + sub-issues |
+| Milestone | Fase/data | Phase 1-5 |
+| Board | Status (Todo/In Progress/Done) | — |
+| Label | Classificação (filtro ortogonal) | `architecture`, `responsive`, `phase-1` |
+
+**Labels de origem** (convenção criada com o backlog):
+
+| Label | Significado | Quando usar |
+|---|---|---|
+| `change:<nome>` | Issue nasce das tasks de um change | Marcar toda issue derivada de `.openspec`/tasks.md |
+| `dev-direct` | Issue avulsa de desenvolvimento (não passa pelo OpenSpec) | Bugs restauradores, chores, tooling, typos |
+
+Exemplo: sub-issue #68 tem `change:refactor-flutter-architecture` + `responsive`
++ `phase-5`. O label de origem diz *de onde veio*; os demais dizem *sobre o quê*.
+
+---
+
+## Issue direta vs change (fluxo de desenvolvimento)
+
+Nem todo trabalho precisa do ciclo OpenSpec completo. O critério de corte:
+
+| Tipo de trabalho | Passa pelo OpenSpec? | Por quê |
+|---|---|---|
+| Refactor de arquitetura | ✅ Sempre | Muda o *o quê* do sistema |
+| Feature nova (comportamento/UX) | ✅ Sempre | Muda capacidade do produto |
+| Bug que **restaura** comportamento esperado | ❌ Geralmente não | Não muda a spec — só corrige |
+| Chore/CI/typo/tooling | ❌ Não | Não toca o produto |
+| Refactor interno (sem mudar contrato) | ⚠️ Talvez | Se só estrutura — pode ser issue direta |
+
+**Regra de ouro:** se a mudança altera o *o quê* do sistema (spec/capacidade),
+ela **passa pelo OpenSpec** (explore → propose → approve → apply → archive),
+mesmo que o change seja pequeno (`proposal.md` + `tasks.md` bastam). Se apenas
+restaura ou organiza o que já existe, é **issue direta** (label `dev-direct`),
+sem ciclo de specs.
+
+```text
+Nova ideia / bug / melhoria
+   │
+   ├─ TRIVIAL (typo, bug 1 linha, chore de 1 commit)
+   │     └─► issue `dev-direct` → branch → PR → merge   (sem OpenSpec)
+   │
+   └─ SIGNIFICATIVA (arquitetura, UX, comportamento, camada)
+         └─► openspec explore → propose → approve
+              → gerar issues no board (label `change:<nome>`)
+              → apply via git flow (Closes #N) → archive
+```
+
+---
+
 ## Solução de divergência
 
 Se Board e tasks.md divergirem: **o Git (código mergeado) é a verdade**.
