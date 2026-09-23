@@ -75,6 +75,15 @@ EXPLORE ──> PROPOSE ──> APPROVE ──> APPLY ──────> ARCHIV
 | `refactor-flutter-architecture` | 4/4 | 0/65 | ✅ #1-#74 |
 | `align-pet-location-schema` | 4/4 | 9/14 | ❌ gap (ver abaixo) |
 
+### Labels de origem (convenção)
+Todo item do board nasce de uma das **duas fontes**, marcadas por label:
+
+- `change:<nome>` → issue derivada das tasks de um change (spec-driven)
+- `dev-direct` → issue avulsa de desenvolvimento (bug restaurador, chore, tooling)
+
+Regra de decisão (idem playbook): **se muda spec/capacidade → change;
+se restaura/organiza o existente → issue direta.**
+
 ### Gap conhecido
 `align-pet-location-schema` tem ~5 tarefas de verificação de banco aplicadas
 fora do board. Decisão pendente: transformá-las em issues (`docs`/`chore`) ou
