@@ -31,4 +31,12 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      - run: flutter test
+      # TODO Phase 1 (#1+): reverter para "flutter test" direto quando os
+      # testes do refactor forem commitados na main.
+      - name: flutter test
+        run: |
+          if [ -d test ]; then
+            flutter test
+          else
+            echo "Ainda sem diretório test/ commitado na main. Aguardando Phase 1."
+          fi
