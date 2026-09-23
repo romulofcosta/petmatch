@@ -16,6 +16,8 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      # .env é declarado como asset no pubspec; exemplo é a fonte segura.
+      - run: cp .env.example .env
       # TODO Phase 4 (#19/#20): remover flags quando os lints de estilo e assets
       # forem resolvidos. Sem elas, o analyze falha por dívida pré-existente.
       - run: flutter analyze --no-fatal-infos --no-fatal-warnings
@@ -31,6 +33,7 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
+      - run: cp .env.example .env
       # TODO Phase 1 (#1+): reverter para "flutter test" direto quando os
       # testes do refactor forem commitados na main.
       - name: flutter test
