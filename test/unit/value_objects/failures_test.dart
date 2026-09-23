@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:petmatch/domain/value_objects/failures/auth_failure.dart';
 import 'package:petmatch/domain/value_objects/failures/common_failure.dart';
 import 'package:petmatch/domain/value_objects/failures/unknown_failure.dart';
 
@@ -29,6 +30,36 @@ void main() {
       expect(failure.toString(), contains('_StubFailure'));
       expect(failure.toString(), contains('message: x'));
       expect(failure.toString(), contains('code: y'));
+    });
+  });
+
+  group('AuthFailure hierarquia', () {
+    final cases = <AuthFailure, String>{
+      const AuthValidationFailure(): 'auth_validation',
+      const AuthNetworkFailure(): 'auth_network',
+      const AuthServerFailure(): 'auth_server',
+      const AuthRateLimitedFailure(): 'auth_rate_limited',
+      const AuthUnauthorizedFailure(): 'auth_unauthorized',
+      const AuthPermissionFailure(): 'auth_permission',
+    };
+
+    cases.forEach((failure, code) {
+      test(
+          '${failure.runtimeType} é instanciável, estende CommonFailure e tem code="$code"',
+          () {
+        expect(failure, isA<AuthFailure>());
+        expect(failure, isA<CommonFailure>());
+        expect(failure.code, code);
+        expect(failure.message, isNotEmpty);
+      });
+    });
+
+    test('preserva originalError não-const em instância não-const', () {
+      final cause = Exception('credenciais expiradas');
+      final failure = AuthUnauthorizedFailure(originalError: cause);
+
+      expect(failure.originalError, same(cause));
+      expect(failure.message, 'E-mail ou senha incorretos.');
     });
   });
 
