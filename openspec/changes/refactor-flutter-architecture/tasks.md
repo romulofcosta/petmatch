@@ -12,7 +12,7 @@
 
 - [ ] 2.1 Create `lib/domain/entities/user.dart` with `uid`, `email`, `displayName`, `photoUrl`, `phone`, `birthDate`, `GeoPoint location`, `Geohash geohash`, `city`, `state`, `country`, `preferences`, `subscription`, `stats`, `isActive`, `isVerified`, `isBanned`, `createdAt`, `updatedAt`, `lastActiveAt`, `age`, `isPremium`, `copyWith`. **Verify:** `flutter test test/unit/entities/user_test.dart` passes.
 - [ ] 2.2 Create `lib/domain/entities/pet.dart` with `id`, `ownerId`, `name`, `PetType type`, `PetSex sex`, `breed`, `breedGroup`, `birthDate`, `weightKg`, `description`, `personalityTags`, `List<PetInterest> interests`, `mainPhotoUrl`, `photos`, `GeoPoint location`, `Geohash geohash`, `veterinary`, `microchipId`, `isActive`, `createdAt`, `updatedAt`, `ageMonths`, `ageText`, `isEligibleForMatching`, `canBreed`, `isDog`, `isCat`, `isMale`, `isFemale`, `copyWith`. **Verify:** `flutter test test/unit/entities/pet_test.dart` passes.
-- [ ] 2.3 Create `lib/domain/entities/pet_type.dart` and `pet_sex.dart` and `pet_interest.dart` enums. **Verify:** Used in Pet entity, tests pass.
+- [x] 2.3 Create `lib/domain/entities/pet_type.dart` and `pet_sex.dart` and `pet_interest.dart` enums. **Verify:** Used in Pet entity, tests pass.
 
 ## 3. Foundation: Data Models (DTOs)
 
