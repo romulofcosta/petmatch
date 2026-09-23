@@ -6,7 +6,7 @@
 - [x] 1.4 Create `lib/domain/value_objects/failures/pet_failure.dart` with `ValidationFailure`, `NetworkFailure`, `ServerFailure`, `PermissionFailure`, `NotFoundFailure`. **Verify:** Unit tests cover each failure type.
 - [x] 1.5 Create `lib/domain/value_objects/geo_point.dart` with `latitude`, `longitude`, validation (-90..90, -180..180), `toWkt()` → `POINT(lng lat)`, `fromPostgis(Map)` parsing GeoJSON. **Verify:** `flutter test test/unit/value_objects/geo_point_test.dart` passes (WKT round-trip, GeoJSON parsing, validation).
 - [x] 1.6 Create `lib/domain/value_objects/geohash.dart` with `encode(GeoPoint, precision)`, `decode(String)`, base32 alphabet. **Verify:** `flutter test test/unit/value_objects/geohash_test.dart` passes (encode/decode round-trip, known values like São Paulo → `6gyf4bf8m`).
-- [ ] 1.7 Create `lib/domain/value_objects/email.dart` with validation regex, `value` getter. **Verify:** Unit tests cover valid/invalid emails.
+- [x] 1.7 Create `lib/domain/value_objects/email.dart` with validation regex, `value` getter. **Verify:** Unit tests cover valid/invalid emails.
 
 ## 2. Foundation: Domain Entities
 
