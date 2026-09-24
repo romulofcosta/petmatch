@@ -2,6 +2,11 @@
 
 ## Visao Geral
 
+> **Atenção:** este arquivo documenta a **estrutura legada** (antes da refatoração de
+> arquitetura). A estrutura alvo — com camadas globais `data/`, `domain/`, `ui/` — e o
+> levantamento de problemas organizacionais estão em
+> [`docs/architecture/07-estrutura-alvo.md`](../architecture/07-estrutura-alvo.md).
+
 O projeto PetMatch segue a arquitetura feature-based com Clean Architecture.
 
 ---
