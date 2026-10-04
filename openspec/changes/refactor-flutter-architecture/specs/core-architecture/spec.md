@@ -100,6 +100,11 @@ Provides foundational architecture building blocks used across all PetMatch feat
 - **AND** all optional fields map correctly (null → null, empty list → empty list)
 
 #### Scenario: Pet entity maps to DTO for insert
-- **WHEN** `PetDto.fromDomain(pet, geoPoint)` is called
+- **WHEN** `PetDto.fromDomain(pet)` is called
 - **THEN** the DTO contains `location: 'POINT(lng lat)'` and `geohash: '6gyf4bf8m'`
 - **AND** no `latitude`/`longitude` keys exist in the insert map
+
+#### Scenario: DTO reads tolerate either location encoding
+- **WHEN** a `location` column arrives as a GeoJSON object or as a WKT string
+- **THEN** `fromJson` normalizes both to the WKT form carried by the DTO
+- **AND** an unrecognized encoding raises `FormatException`

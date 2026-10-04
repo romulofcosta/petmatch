@@ -79,6 +79,24 @@ class GeoPoint {
     return GeoPoint(latitude: latitude, longitude: longitude);
   }
 
+  /// Parses whatever a PostGIS `geography` column yields, so DTOs can read
+  /// rows regardless of the `Accept` header used by the query.
+  ///
+  /// PostgREST serializes `geography` as a GeoJSON object, but WKT/EWKT strings
+  /// also reach the client (RPC results, raw SQL, Edge Functions). Accepts both.
+  factory GeoPoint.fromDbValue(Object? value) {
+    if (value is Map) {
+      return GeoPoint.fromPostgis(Map<String, dynamic>.from(value));
+    }
+    if (value is String) {
+      return GeoPoint.fromWkt(value);
+    }
+    throw FormatException(
+      'Invalid location; expected a GeoJSON point Map or a POINT(lng lat) '
+      'string, got ${value.runtimeType}',
+    );
+  }
+
   static double _coordinateToDouble(Object? value) {
     if (value is num) {
       return value.toDouble();
