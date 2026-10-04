@@ -18,7 +18,7 @@
 
 - [ ] 3.1 Create `lib/data/models/user_dto.dart` matching Supabase `users` table (snake_case fields, `location` as GeoJSON Map, `geohash` String). Implement `fromJson`, `toJson`, `toDomain()`, `fromDomain(User)`. **Verify:** `flutter test test/unit/models/user_dto_test.dart` passes (JSON round-trip, domain mapping).
 - [ ] 3.2 Create `lib/data/models/pet_dto.dart` matching Supabase `pets` table (snake_case, `location` GeoJSON, `geohash` String, `interests` List<String>). Implement `fromJson`, `toJson`, `toDomain()`, `fromDomain(Pet, GeoPoint)`. **Verify:** `flutter test test/unit/models/pet_dto_test.dart` passes.
-- [ ] 3.3 Create `lib/data/models/create_pet_params.dart` for Use Case input (form data without location — location comes from GeolocationService). **Verify:** Unit test passes.
+- [x] 3.3 Create `lib/data/models/create_pet_params.dart` for Use Case input (form data without location — location comes from GeolocationService). **Verify:** Unit test passes.
 
 ## 4. Foundation: Services Layer
 
